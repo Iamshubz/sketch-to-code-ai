@@ -1,5 +1,5 @@
 
-import { CircleNotch, Cpu } from 'lucide-react';
+import { Loader, Cpu } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface ProcessingUIProps {
@@ -25,7 +25,7 @@ const ProcessingUI = ({ status, message }: ProcessingUIProps) => {
                   <Cpu size={48} className="text-brand-blue" />
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <CircleNotch size={24} className="animate-spin text-white" />
+                  <Loader size={24} className="animate-spin text-white" />
                 </div>
               </div>
               <div className="text-center">
