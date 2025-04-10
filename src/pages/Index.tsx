@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Cpu, Code, ScreenShare, Share2, Download, Sparkles, Github } from 'lucide-react';
+import { Cpu, Code, ScreenShare, Share2, Download } from 'lucide-react';
 import { toast } from 'sonner';
 
 import ImageUploader from '@/components/ImageUploader';
@@ -37,11 +37,6 @@ const Index = () => {
     // Reset any previous code
     setProcessingStatus('idle');
     setGeneratedCode('');
-
-    toast.success('Image uploaded successfully!', {
-      description: 'Your sketch is ready for processing.',
-      icon: <Sparkles className="h-4 w-4 text-yellow-400" />
-    });
   };
 
   const handleProcessSketch = async () => {
@@ -82,10 +77,7 @@ const Index = () => {
         setGeneratedCode(result.code);
         setProcessingStatus('complete');
         setStatusMessage('Code generation complete!');
-        toast.success('UI code successfully generated!', {
-          description: 'Your code is ready to use in your project.',
-          icon: <Sparkles className="h-4 w-4 text-green-400" />
-        });
+        toast.success('UI code successfully generated!');
       } else {
         setProcessingStatus('error');
         setStatusMessage(result.error || 'An unknown error occurred');
@@ -115,29 +107,23 @@ const Index = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    toast.success('Code downloaded successfully!', {
-      description: 'The generated code has been saved to your device.',
-      icon: <Download className="h-4 w-4 text-green-400" />
-    });
+    toast.success('Code downloaded successfully!');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b shadow-sm">
+      <header className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
-              <div className="relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full blur opacity-30"></div>
-                <Cpu className="h-8 w-8 text-brand-blue relative" />
-              </div>
-              <h1 className="ml-2 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-indigo">Sketch2Code</h1>
-              <span className="ml-2 bg-gradient-to-r from-blue-100 to-indigo-100 text-brand-blue text-xs font-medium px-2.5 py-0.5 rounded-full border border-blue-200">BETA</span>
+              <Cpu className="h-8 w-8 text-brand-blue" />
+              <h1 className="ml-2 text-2xl font-bold text-gray-900">Sketch2Code</h1>
+              <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">BETA</span>
             </div>
             <div className="flex items-center space-x-4">
               <button 
-                className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue transition-all duration-200"
+                className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue"
                 onClick={() => toast.info('Sharing coming soon!')}
               >
                 <Share2 className="h-4 w-4 mr-2" />
@@ -147,9 +133,9 @@ const Index = () => {
                 href="https://github.com/your-repo/sketch2code"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-gradient-to-r from-brand-blue to-brand-indigo hover:from-brand-indigo hover:to-brand-purple focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue transition-all duration-200"
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-brand-blue hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue"
               >
-                <Github className="h-4 w-4 mr-2" />
+                <Code className="h-4 w-4 mr-2" />
                 GitHub
               </a>
             </div>
@@ -160,9 +146,8 @@ const Index = () => {
       {/* Main content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl relative inline-block">
-            <span className="relative z-10">Turn your sketches into code</span>
-            <span className="absolute -bottom-1 left-0 right-0 h-3 bg-gradient-to-r from-brand-blue/20 to-brand-indigo/20 -rotate-1 transform"></span>
+          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Turn your sketches into code
           </h2>
           <p className="mt-3 max-w-2xl mx-auto text-lg text-gray-500">
             Upload a wireframe sketch or UI mockup, and our AI will transform it into React components.
@@ -172,9 +157,7 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left column - Upload and config */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="bg-white p-1 rounded-xl shadow-sm overflow-hidden transition-all hover:shadow-md">
-              <ImageUploader onImageUpload={handleImageUpload} />
-            </div>
+            <ImageUploader onImageUpload={handleImageUpload} />
             
             <ConfigOptions 
               framework={framework}
@@ -191,8 +174,8 @@ const Index = () => {
               <button
                 onClick={handleProcessSketch}
                 disabled={!uploadedImage || processingStatus === 'analyzing' || processingStatus === 'generating'}
-                className={`w-full inline-flex justify-center items-center px-4 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-brand-blue to-brand-indigo hover:from-brand-indigo hover:to-brand-purple focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue transition-all duration-300
-                  ${(!uploadedImage || processingStatus === 'analyzing' || processingStatus === 'generating') ? 'opacity-50 cursor-not-allowed' : 'animate-pulse-slow'}`}
+                className={`w-full inline-flex justify-center items-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand-blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue
+                  ${(!uploadedImage || processingStatus === 'analyzing' || processingStatus === 'generating') ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <Cpu className="mr-2 h-5 w-5" />
                 Generate Code
@@ -201,7 +184,7 @@ const Index = () => {
               {generatedCode && (
                 <button
                   onClick={handleDownloadCode}
-                  className="w-full inline-flex justify-center items-center px-4 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue transition-all duration-200"
+                  className="w-full inline-flex justify-center items-center px-4 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue"
                 >
                   <Download className="mr-2 h-5 w-5" />
                   Download Code
@@ -209,10 +192,8 @@ const Index = () => {
               )}
             </div>
             
-            {(processingStatus === 'analyzing' || processingStatus === 'generating' || processingStatus === 'error' || processingStatus === 'complete') && (
-              <div className="animate-fade-in">
-                <ProcessingUI status={processingStatus} message={statusMessage} />
-              </div>
+            {(processingStatus === 'analyzing' || processingStatus === 'generating' || processingStatus === 'error') && (
+              <ProcessingUI status={processingStatus} message={statusMessage} />
             )}
           </div>
 
@@ -220,20 +201,13 @@ const Index = () => {
           <div className="lg:col-span-2 space-y-6">
             {uploadedImage && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-[500px]">
-                <div className="bg-white rounded-lg shadow-sm transition-all hover:shadow-md overflow-hidden">
-                  <PreviewDisplay code={generatedCode} originalImage={imagePreview || undefined} />
-                </div>
+                <PreviewDisplay code={generatedCode} originalImage={imagePreview || undefined} />
                 {generatedCode ? (
-                  <div className="bg-white rounded-lg shadow-sm transition-all hover:shadow-md overflow-hidden">
-                    <CodeDisplay code={generatedCode} />
-                  </div>
+                  <CodeDisplay code={generatedCode} />
                 ) : (
-                  <div className="bg-white border border-gray-200 rounded-lg flex items-center justify-center p-6 shadow-sm transition-all hover:shadow-md">
+                  <div className="bg-white border border-gray-200 rounded-lg flex items-center justify-center p-6">
                     <div className="text-center">
-                      <div className="relative mx-auto h-12 w-12 mb-2">
-                        <div className="absolute inset-0 bg-blue-100 rounded-full opacity-30 scale-150 animate-pulse-slow"></div>
-                        <ScreenShare className="mx-auto h-12 w-12 text-brand-blue relative" />
-                      </div>
+                      <ScreenShare className="mx-auto h-12 w-12 text-gray-400" />
                       <h3 className="mt-2 text-sm font-medium text-gray-900">Code will appear here</h3>
                       <p className="mt-1 text-sm text-gray-500">
                         Click "Generate Code" to convert your sketch to React components
@@ -245,13 +219,13 @@ const Index = () => {
             )}
 
             {!uploadedImage && (
-              <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-10 transition-all hover:shadow-md">
+              <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-10">
                 <div className="text-center">
                   <h3 className="text-lg font-medium text-gray-900 mb-2">How It Works</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
-                    <div className="flex flex-col items-center group">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-brand-blue mb-3 transform transition-transform group-hover:scale-110 group-hover:shadow-md">
-                        <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex flex-col items-center">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-md bg-blue-50 text-brand-blue mb-3">
+                        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                       </div>
@@ -259,9 +233,9 @@ const Index = () => {
                       <p className="mt-2 text-sm text-gray-500 text-center">Upload your hand-drawn sketch or UI mockup</p>
                     </div>
                     
-                    <div className="flex flex-col items-center group">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-brand-blue mb-3 transform transition-transform group-hover:scale-110 group-hover:shadow-md">
-                        <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex flex-col items-center">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-md bg-blue-50 text-brand-blue mb-3">
+                        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                         </svg>
                       </div>
@@ -269,9 +243,9 @@ const Index = () => {
                       <p className="mt-2 text-sm text-gray-500 text-center">Our AI detects components and layout in your design</p>
                     </div>
                     
-                    <div className="flex flex-col items-center group">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-brand-blue mb-3 transform transition-transform group-hover:scale-110 group-hover:shadow-md">
-                        <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex flex-col items-center">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-md bg-blue-50 text-brand-blue mb-3">
+                        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                         </svg>
                       </div>
