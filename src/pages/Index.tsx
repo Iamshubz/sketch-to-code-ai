@@ -118,7 +118,7 @@ const Index = () => {
           <div className="flex justify-between items-center">
             <div className="flex items-center">
               <Cpu className="h-8 w-8 text-brand-blue" />
-              <h1 className="ml-2 text-2xl font-bold text-gray-900">Sketch2Code</h1>
+              <h1 className="ml-2 text-2xl font-bold text-gray-900">SketchCraft</h1>
               <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">BETA</span>
             </div>
             <div className="flex items-center space-x-4">
@@ -130,7 +130,7 @@ const Index = () => {
                 Share
               </button>
               <a 
-                href="https://github.com/your-repo/sketch2code"
+                href="https://github.com/your-repo/sketchcraft"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-brand-blue hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue"
@@ -264,7 +264,7 @@ const Index = () => {
       <footer className="bg-white mt-12 border-t">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <p className="text-center text-sm text-gray-500">
-            Sketch2Code - Hackathon Project &copy; {new Date().getFullYear()}
+            SketchCraft &copy; {new Date().getFullYear()}
           </p>
         </div>
       </footer>
